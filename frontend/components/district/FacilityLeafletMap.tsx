@@ -60,28 +60,16 @@ export default function FacilityLeafletMap({
       map.removeLayer(tileLayerRef.current);
     }
 
-    if (mapStyle === "dark") {
-      // CartoDB Dark Matter tile layer powered by OpenStreetMap contributors
-      tileLayerRef.current = L.tileLayer(
-        "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-        {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>',
-          subdomains: "abcd",
-          maxZoom: 19,
-        }
-      ).addTo(map);
-    } else {
-      // Standard OpenStreetMap street tiles
-      tileLayerRef.current = L.tileLayer(
-        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
-          maxZoom: 19,
-        }
-      ).addTo(map);
-    }
+    // Use 100% free official OpenStreetMap tiles (No API key, no watermarks)
+    tileLayerRef.current = L.tileLayer(
+      "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
+        maxZoom: 19,
+        className: mapStyle === "dark" ? "dark-tiles" : "standard-osm-tiles",
+      }
+    ).addTo(map);
   }, [mapStyle]);
 
   // Update Markers & Logistics Polylines

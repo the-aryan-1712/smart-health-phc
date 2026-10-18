@@ -413,3 +413,10 @@ body {
 .leaflet-control-attribution a {
   color: #38bdf8 !important;
 }
+
+/* OpenStreetMap Free Dark Mode Filter (Zero API Key, Zero Watermarks) */
+.dark-tiles .leaflet-tile,
+img.dark-tiles,
+.leaflet-tile.dark-tiles {
+  filter: invert(100%) hue-rotate(180deg) brightness(85%) contrast(90%) !important;
+}
