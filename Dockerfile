@@ -10,7 +10,7 @@ FROM node:20-alpine AS node-builder
 WORKDIR /app/frontend
 
 COPY frontend/package*.json ./
-RUN npm ci --ignore-scripts
+RUN npm ci --legacy-peer-deps --ignore-scripts
 
 COPY frontend/ .
 
