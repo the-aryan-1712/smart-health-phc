@@ -1,0 +1,54 @@
+services:
+  smart-health:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.local
+    environment:
+      - PORT=8080
+      - FASTAPI_PORT=8000
+      - NODE_ENV=production
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # Development-only: run services separately for hot reload
+  fastapi-dev:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.dev
+    volumes:
+      - ./backend:/app/backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.local
+    environment:
+      - PYTHONPATH=/app
+    profiles:
+      - dev
+
+  nextjs-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.local
+    environment:
+      - FASTAPI_INTERNAL_URL=http://fastapi-dev:8000
+    profiles:
+      - dev
+    depends_on:
+      - fastapi-dev

@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Next.js build output
+frontend/.next/
+frontend/out/
+
+# Python
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.pyc
+backend/.mypy_cache/
+backend/.ruff_cache/
+backend/.pytest_cache/
+backend/htmlcov/
+backend/.coverage
+
+# Environment files — NEVER commit secrets
+.env.local
+.env.*.local
+.env.production
+
+# Docker
+*.tar
+.dockerignore
+
+# Logs
+*.log
+npm-debug.log*
+
+# Testing
+frontend/coverage/
+frontend/playwright-report/
+frontend/test-results/
+
+# OS
+.DS_Store
+Thumbs.db
