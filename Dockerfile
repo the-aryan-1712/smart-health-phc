@@ -57,9 +57,12 @@ COPY backend/ ./backend/
 # Copy Next.js standalone build artifacts
 COPY --from=node-builder /app/frontend/.next/standalone ./frontend/
 COPY --from=node-builder /app/frontend/.next/static ./frontend/.next/static
+COPY --from=node-builder /app/frontend/.next/static ./frontend/frontend/.next/static
+COPY --from=node-builder /app/frontend/public ./frontend/frontend/public
 COPY --from=node-builder /app/frontend/public ./frontend/public
 
 # Supervisor configuration
+RUN mkdir -p /var/log/supervisor /var/run
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Set ownership
@@ -72,6 +75,6 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
 EXPOSE 8080
 
 # Run as non-root
-USER appuser
+# USER appuser
 
 CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
